@@ -10,7 +10,8 @@ const sequelize = new Sequelize(
 );
 
 async function initializeData() {
-  const permisoModel = require('./models/permisoModel'); 
+  const permisoModel = require('./models/permisoModel');
+  const estadosPedidosModel = require('./models/estadosPedidosModel'); 
 
   const permisos = [
     "Dashboard",
@@ -28,22 +29,46 @@ async function initializeData() {
     "Pedidos"
   ];
 
+  const estados = [
+    "Finalizado",
+    "Pendiente",
+    "Cancelado"
+  ];
+
+  // Inserción de permisos
   const existingPermisos = await permisoModel.findAll({
     attributes: ['Permiso'],
     raw: true,
   });
 
   const existingPermisosSet = new Set(existingPermisos.map(p => p.Permiso));
-
   const newPermisos = permisos.filter(permiso => !existingPermisosSet.has(permiso));
 
   if (newPermisos.length > 0) {
     await permisoModel.bulkCreate(
       newPermisos.map(permiso => ({ Permiso: permiso }))
     );
-    console.log("Datos iniciales insertados correctamente.");
+    console.log("Datos de permisos iniciales insertados correctamente.");
   } else {
-    console.log("No se encontraron nuevos datos para insertar.");
+    console.log("No se encontraron nuevos permisos para insertar.");
+  }
+
+  // Inserción de estados de pedidos
+  const existingEstados = await estadosPedidosModel.findAll({
+    attributes: ['NombreEstado'],
+    raw: true,
+  });
+
+  const existingEstadosSet = new Set(existingEstados.map(e => e.NombreEstado));
+  const newEstados = estados.filter(estado => !existingEstadosSet.has(estado));
+
+  if (newEstados.length > 0) {
+    await estadosPedidosModel.bulkCreate(
+      newEstados.map(estado => ({ NombreEstado: estado }))
+    );
+    console.log("Datos de estados de pedidos iniciales insertados correctamente.");
+  } else {
+    console.log("No se encontraron nuevos estados para insertar.");
   }
 }
 
@@ -52,22 +77,11 @@ sequelize
   .then(async () => {
     console.log("Conexión a la base de datos exitosa.");
 
-    // Leer el archivo de sincronización
-    const syncFlag = JSON.parse(fs.readFileSync('syncFlag.json', 'utf8'));
 
-    if (!syncFlag.synced) {
-      // Sincronizar los modelos con la base de datos
-      await sequelize.sync({ alter: true });
+    // await sequelize.sync({ alter: true });
+    // console.log("Base de datos sincronizada con los modelos.");
 
-      // Marcar la sincronización como realizada
-      syncFlag.synced = true;
-      fs.writeFileSync('syncFlag.json', JSON.stringify(syncFlag));
-
-      // Inicializar los datos después de sincronizar
-      await initializeData();
-    } else {
-      console.log("La base de datos ya ha sido sincronizada previamente. No se requieren cambios.");
-    }
+    await initializeData();
   })
   .catch((err) => {
     console.error("Error al conectar a la base de datos o sincronizar:", err);

@@ -68,6 +68,24 @@ const clienteModel = db.define(
         },
       },
     },
+    Usuario: {
+      type: sequelize.STRING, // Tipo de dato: STRING
+      allowNull: false, // No se permiten valores nulos
+      validate: {
+        len: {
+          args: [10, 60],
+          msg: "El usuario debe tener entre 10 y 60 caracteres",
+        },
+        notNull: {
+          msg: "El usuario es requerido",
+        },
+        is: {
+          args: /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ!@#$%^&*(),.?":{}|<>]*$/, // Permitir letras, números y caracteres especiales, sin espacios
+          msg: "El usuario solo puede contener letras, números y caracteres especiales, sin espacios",
+        },
+      },
+    },    
+  
     Telefono: {
       type: sequelize.STRING, // Tipo de dato: STRING
       allowNull: false, // No se permiten valores nulos
