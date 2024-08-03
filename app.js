@@ -50,9 +50,12 @@ const coloresRoutes=require("./routes/colorRoute")
 const usuarioRoutes=require("./routes/usuarioRoute")
 const rolRoutes=require("./routes/rolRoute")
 const permisoRoutes=require("./routes/permisoRoute")
-const authmovil=require("./routes/authMovilesRoute")
+const authmovil=require("./routes/authWebRoute")
 const forgotMovil= require("./routes/forgotPassRoute")
 const resetPassMovil= require("./routes/resetPasswordRoute")
+
+const authWeb = require("./routes/authWebRoute")
+const authWebAdmin = require("./routes/authWebAdminRoute")
 
 
 
@@ -76,7 +79,8 @@ app.use(cors({
     } else {
       callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  credentials:true
 }));
 
 
@@ -98,6 +102,10 @@ app.use("/api/permisos",permisoRoutes)
 app.use("/api/authMovil/login",authmovil)
 app.use("/api/forgot-password",forgotMovil)
 app.use("/api/reset-password",resetPassMovil)
+
+app.use("/api/authWeb/login",authWeb)
+app.use("/api/authWeb/loginAdmin",authWebAdmin)
+
 
 
 

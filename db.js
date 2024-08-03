@@ -30,8 +30,9 @@ async function initializeData() {
   ];
 
   const estados = [
-    "Finalizado",
     "Pendiente",
+    "En proceso",
+    "Finalizado",
     "Cancelado"
   ];
 
