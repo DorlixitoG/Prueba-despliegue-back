@@ -53,9 +53,6 @@ const usuarioModel = db.define(
         isEmail: {
           msg: "Correo electrónico no válido",
         },
-        notNull: {
-          msg: "El correo electrónico es requerido",
-        },
         noSpaces(value) {
           if (/\s/.test(value)) {
             throw new Error("El correo electrónico no puede contener espacios");

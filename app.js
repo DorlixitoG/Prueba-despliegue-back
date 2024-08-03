@@ -50,7 +50,7 @@ const coloresRoutes=require("./routes/colorRoute")
 const usuarioRoutes=require("./routes/usuarioRoute")
 const rolRoutes=require("./routes/rolRoute")
 const permisoRoutes=require("./routes/permisoRoute")
-const authmovil=require("./routes/authWebRoute")
+const authmovil=require("./routes/authMovilesRoute")
 const forgotMovil= require("./routes/forgotPassRoute")
 const resetPassMovil= require("./routes/resetPasswordRoute")
 

@@ -1,8 +1,8 @@
 // AuthController.js
-require('dotenv').config();
 const usuarioModel = require("../models/usuarioModel");
 const jwt = require('jsonwebtoken');
-const secretKey = process.env.SECRET_KEY; // Usa la clave secreta del archivo .env
+const secretKey = process.env.SECRET_KEY; 
+require('dotenv').config();
 
 const autenticar = async (req, res) => {
   try {
